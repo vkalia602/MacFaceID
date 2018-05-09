@@ -6,11 +6,11 @@ import numpy as np
 import opencv_tutorial
 import matplotlib.pyplot as plt
 
-subjects = ['', 'Ramiz Raja', 'Elvis Presley']
+subjects = ['', 'Sue']
 
 def detect_face(img):
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    face_cascade = cv2.CascadeClassifier('opencv_tutorial/opencv-files/lbpcascade_frontalface.xml')
+    face_cascade = cv2.CascadeClassifier('MacFaceID/opencv_tutorial/opencv-files/lbpcascade_frontalface.xml')
     faces = face_cascade.detectMultiScale(gray, scaleFactor=1.2, minNeighbors=5)
 
     if len(faces) is 0:
@@ -43,13 +43,13 @@ def prepare_training_data(data_folder_path):
             if face is not None:
                 faces.append(face)
                 labels.append(label)
-#    cv2.destroyAllWindows()
+    cv2.destroyAllWindows()
     cv2.waitKey(100)
- #   cv2.destroyAllWindows()
+    cv2.destroyAllWindows()
     return faces, labels
 
 print("Preparing data...")
-faces, labels = prepare_training_data("opencv_tutorial/training-data")
+faces, labels = prepare_training_data("MacFaceID/opencv_tutorial/training-data")
 print("Data Prepared")
 
 print("Total faces:{} ", len(faces))
@@ -80,24 +80,45 @@ def predict(test_img):
     return img
 
 print("Predicting images...")
-test_img1 = cv2.imread("opencv_tutorial/test-data/test1.jpg")
-test_img2 = cv2.imread("opencv_tutorial/test-data/test2.jpg")
 
+camera_port = 0 
+ramp_frames = 30 
+camera = cv2.VideoCapture(camera_port)
+def get_image():
+     retval, im = camera.read()
+     return im 
+for i in range(ramp_frames):
+    temp = camera.read()
+
+camera_capture = get_image()
+filename = "MacFaceID/opencv_tutorial/test-data/test1.jpg"
+cv2.imwrite(filename,camera_capture)
+del(camera)
+
+test_img1 = cv2.imread("MacFaceID/opencv_tutorial/test-data/test1.jpg")
 predicted_img1 = predict(test_img1)
-predicted_img2 = predict(test_img2)
 print("Prediction complete")
-
 f, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))
+print("Found Match")
 ax1.imshow(cv2.cvtColor(predicted_img1, cv2.COLOR_BGR2RGB))
-ax2.imshow(cv2.cvtColor(predicted_img2, cv2.COLOR_BGR2RGB))
+
 cv2.imshow(subjects[1], predicted_img1)
-cv2.imshow(subjects[2], predicted_img2)
 
 cv2.imshow(subjects[1], cv2.resize(predicted_img1, (400, 500)))
-cv2.imshow(subjects[2], cv2.resize(predicted_img2, (400, 500)))
-#cv2.imshow("Tom Cruise Test", predicted_img1)
-#cv2.imshow("Shahrukh Khan test", predicted_img2)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+
+cmd = """ osascript -e 'tell application "System Events"
+                        keystroke "bigbang"
+                        keystroke return
+                        end tell' """
+os.system(cmd)
+#except cv2.error:
+ #      cmd = """ osascript -e 'tell app "System Events" to tell process "loginwindow" to display dialog "You are not Sue"'"""
+  #     os.system(cmd)
+   #    print("not a match")
+
+os.remove(filename)
 cv2.waitKey(1)
 cv2.destroyAllWindows()
+cv2.waitKey(2)
+cv2.destroyAllWindows()
+
