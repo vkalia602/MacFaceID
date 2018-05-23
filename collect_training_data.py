@@ -9,10 +9,11 @@ camera = cv2.VideoCapture(camera_port)
 def get_image():
     retval, im = camera.read()
     return im
-frame = get_image()
-rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2BGRA)
-cv2.imshow('frame', rgb)
-
+while True:
+    retrn, frame = camera.read()
+    rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2BGRA)
+    cv2.imshow('frame', frame)
+'''
 instr_list = ["Face forward, look into the camera at 1 elbow distance",
               "Face forward, now look at 2 elbow distance",
               "Move your face up", "Move your face down",
@@ -20,6 +21,7 @@ instr_list = ["Face forward, look into the camera at 1 elbow distance",
               "Move your face slight left"] 
 for instruction in instr_list:
     print("{}". format(instruction))
+    cv2.imshow('frame', rgb)
     while True:
         key = input("Press 'return' when you are ready \n")
         if key == "":
@@ -35,5 +37,6 @@ for instruction in instr_list:
         else:
             print("Sorry, I did not get that, Press 'return' when you are ready")
 print("Your training data has been recorded, Thank You")
+'''
+camera.release()
 cv2.destroyAllWindows()
-del(camera)
