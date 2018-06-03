@@ -1,18 +1,19 @@
 #!/usr/bin/env python3
 import cv2
 from time import sleep
+from test import display_instruction
 cam = cv2.VideoCapture(0)
 
 cv2.namedWindow("test")
 
 img_counter = 0
-instr_list = ["Face forward, look into the camera at 1 elbow distance",
-              "Face forward, now look at 2 elbow distance",
+instr_list = ["Face forward, look into the camera at 1 arm distance",
+              "Face forward, now look at half arm distance",
               "Move your face up", "Move your face down",
               "Move your face slight right",
               "Move your face slight left"]
 for instruction in instr_list:
-    print(instruction)
+    display_instruction(instruction)
     print("Press Space bar when ready")
     while True:
         ret, frame = cam.read()
@@ -20,7 +21,7 @@ for instruction in instr_list:
         if not ret:
             break
         k = cv2.waitKey(1)
-        elif k%256 == 32:
+        if k%256 == 32:
             # SPACE pressed
             for i in range(5):
                 # change the directory name appropriately
