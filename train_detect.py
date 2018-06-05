@@ -57,7 +57,7 @@ face_recognizer = cv2.face.LBPHFaceRecognizer_create()
 face_recognizer.train(faces, np.array(labels))
 face_recognizer.save("MacFaceID/support/saved_instance.xml")
 
-face_recognizer.read("MacFaceID/support/saved_instance.xml")
+#face_recognizer.read("MacFaceID/support/saved_instance.xml")
 def draw_rectangle(img, rect):
       (x, y, w, h) = rect
       cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 2)
@@ -105,10 +105,7 @@ test_img1 = cv2.imread("MacFaceID/support/test-data/test1.jpg")
 predicted_img1 = predict(test_img1)
 print("Prediction complete")
 if predicted_img1 is None:
-    cmd = """ osascript -e 'tell application "System Events"
-                        keystroke "wrongpasswordqwerty8477"
-                        keystroke return
-                        end tell' """
+    cmd = """ osascript -e 'display dialog "You are NOT Sue"'"""
     os.system(cmd)
     print("not a match")
 else:
@@ -129,4 +126,5 @@ cv2.waitKey(1)
 cv2.destroyAllWindows()
 cv2.waitKey(2)
 cv2.destroyAllWindows()
+
 
