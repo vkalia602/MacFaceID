@@ -6,8 +6,7 @@ import os
 print("Preparing Training Data, Please Wait!")
 def detect_face(img):
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    face_cascade = cv2.CascadeClassifier('MacFaceID/support/opencv-files/haarcascade_frontalface_\
-alt.xml')
+    face_cascade = cv2.CascadeClassifier('MacFaceID/support/opencv-files/haarcascade_frontalface_alt.xml')
     faces = face_cascade.detectMultiScale(gray, scaleFactor=1.3, minNeighbors=5)
     if len(faces) is 0:
         return None, None
@@ -47,5 +46,5 @@ def prepare_training_data(data_folder_path):
 faces, labels = prepare_training_data("MacFaceID/testing")
 face_recognizer = cv2.face.LBPHFaceRecognizer_create()
 face_recognizer.train(faces, np.array(labels))
-face_recognizer.save("MacFaceID/support/saved_instance.xml")
+face_recognizer.save("MacFaceID/testing/cascade/saved_instance.xml")
 print("Done")

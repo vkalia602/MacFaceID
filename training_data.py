@@ -2,9 +2,11 @@
 import cv2
 from time import sleep
 import os
+
 cam = cv2.VideoCapture(0)
 cv2.namedWindow("test")
 integer = 0
+ramp_frames = 30
 def dialog_box(instruction):
     answer = """
         osascript -e '
@@ -14,6 +16,14 @@ def dialog_box(instruction):
 '
         """ % (instruction)
     os.system(answer)
+def get_image():
+    retval, im = cam.read()
+    return im
+def picture():
+    for i in range(ramp_frames):
+        picture = get_image()
+    pic = get_image()
+    return pic
 img_counter = 0
 instr_list = ["Let us collect some training data now",
               "Face forward, look into the camera at 1 arm distance",
@@ -30,20 +40,20 @@ for instruction in instr_list:
         if not ret:
             break
         k = cv2.waitKey(1)
-#        if integer == 0:
- #           integer += 1
-  #          break
+        if integer == 0:
+            integer += 1
+            break
         if k%256 == 32:
             # SPACE pressed
             for i in range(5):
                 # change the directory name appropriately
+                pic = picture()
                 img_name = "testing/s1/{}.jpeg".format(img_counter)
-                cv2.imwrite(img_name, frame)
+                cv2.imwrite(img_name, pic)
                 print("{} written!".format(img_name))
                 img_counter += 1
             break
 dialog_box("Training data has been recorded, Thank You")
-
 cam.release()
-
 cv2.destroyAllWindows()
+
