@@ -9,17 +9,19 @@ def child():
 
 def parent():
    while True:
-      newpid = os.fork()
-      if newpid == 0:
-         child()
-      else:
-         pids = (os.getpid(), newpid)
-         print("parent: %d, child: %d\n" % pids)
-      reply = input("q for quit / c for new fork")
-      if reply == 'c': 
-          continue
-      else:
-          break
+       sender.state = not sender.state
+       newpid = os.fork()
+       if newpid == 0:
+           child()
+       else:
+           pids = (os.getpid(), newpid)
+           print("parent: %d, child: %d\n" % pids)
+       reply = input("q for quit / c for new fork")
+       if reply == 'c': 
+           continue
+       else:
+           break
+
 class MacFace(rumps.App):
     @rumps.clicked("SetUp")
     def setup(self, _):
@@ -31,7 +33,6 @@ class MacFace(rumps.App):
 
     @rumps.clicked("Launch MacFace")
     def onoff(self, sender):
-        sender.state = not sender.state
 #        os.system("MacFaceID/sleepwatcher -w MacFaceID/unlock_it.wakeup")
         parent()
 #        subprocess.Popen("MacFaceID/train_detect.py")
