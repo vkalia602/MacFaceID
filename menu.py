@@ -6,11 +6,7 @@ def setup():
 def password_change():
     os.system("MacFaceID/credentials.py")
 def startit():
-    pid = os.fork()
-    if pid == 0:
-        os.system("MacFaceID/sleepwatcher -w MacFaceID/unlock_it.wakeup")
-        child_pid = os.getpid()
-        print(child_pid)
+    os.system("MacFaceID/sleepwatcher -w MacFaceID/unlock_it.wakeup")
 def stopit():
     command = "pgrep -f sleepwatcher | awk '{print \"kill -9 \"$1}' | sh"
     os.system(command)

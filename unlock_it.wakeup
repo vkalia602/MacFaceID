@@ -6,9 +6,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import keyring
 from time import sleep
+from subprocess import call
 subjects = ['', 'Sue']
 face_recognizer = cv2.face.LBPHFaceRecognizer_create()
-face_recognizer.read("MacFaceID/support/saved_instance.xml")
+face_recognizer.read("MacFaceID/support/saved_instance2.xml")
 def detect_face(img):
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     face_cascade = cv2.CascadeClassifier('MacFaceID/support/opencv-files/haarcascade_frontalface_alt.xml')
@@ -63,11 +64,11 @@ for i in range(ramp_frames):
 camera_capture = get_image()
 filename = "MacFaceID/support/test-data/test1.jpg"
 cv2.imwrite(filename,camera_capture)
-print("before imread")
+#print("before imread")
 test_img1 = cv2.imread("MacFaceID/support/test-data/test1.jpg")
-print("before")
+#print("before")
 predicted_img1 = predict(test_img1)
-print("Prediction complete")
+#print("Prediction complete")
 if predicted_img1 is None:
     password = "NOTAmatchSTUPIDIDIOT"
     cmd = """ osascript -e 'tell application "System Events"
@@ -88,7 +89,7 @@ else:
                         keystroke return
                         end tell' """ % (password)
     os.system(cmd)
-#    os.remove(filename)
+    os.remove(filename)
 del(camera)
 #cv2.waitKey(1)
 #cv2.destroyAllWindows()

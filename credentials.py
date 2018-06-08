@@ -11,9 +11,8 @@ def make_entry(parent, caption, width=None, **options):
 def enter(event):
     check_password()
 def check_password():
-    """ Collect 1's for every failure """
     if (user.get() == password.get()):
-        keyring.set_password("MacFace", "user", password.get())        
+        keyring.set_password("MacFace", "Account-name", password.get())        
         root.title('Recorded')
         return
     else:
