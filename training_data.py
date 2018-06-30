@@ -5,7 +5,7 @@ import os
 import numpy as np
 
 cam = cv2.VideoCapture(0)
-cv2.namedWindow("test")
+cv2.namedWindow("Training Pictures")
 integer = 0
 ramp_frames = 30
 def dialog_box(instruction):
@@ -26,7 +26,7 @@ def picture():
     pic = get_image()
     return pic
 img_counter = 0
-instr_list = ["Let us collect some training data now",
+instr_list = ["",
               "Face forward, look into the camera at 1 arm distance",
               "Face forward, now look at half arm distance",
               "Move your face up",
@@ -34,10 +34,26 @@ instr_list = ["Let us collect some training data now",
               "Move your face slight right",
               "Move your face slight left"]
 for instruction in instr_list:
-    dialog_box(instruction + "\nPlease press Space bar on Camera window when ready")
+#    dialog_box(instruction + "\nPlease press Space bar on Camera window when ready")
+    frameWidth = int(cam.get(cv2.CAP_PROP_FRAME_WIDTH))
+    frameHeight = int(cam.get(cv2.CAP_PROP_FRAME_HEIGHT))
     while True:
         ret, frame = cam.read()
-        cv2.imshow("test", frame)
+        cv2.putText(img = frame, text = instruction,
+                    org = (int(frameWidth/6),int(frameHeight) - 100), 
+                    fontFace = cv2.FONT_HERSHEY_DUPLEX, 
+                    fontScale = 1, 
+                    color = (255,0,0),
+                    thickness = 2, 
+                    lineType = 2)
+        cv2.putText(img = frame, text = "Press space bar when ready",
+                    org = (int(frameWidth/6),int(frameHeight) - 30), 
+                    fontFace = cv2.FONT_HERSHEY_DUPLEX, 
+                    fontScale = 1, 
+                    color = (255,0,0),
+                    thickness = 2, 
+                    lineType = 2)
+        cv2.imshow("Training Pictures", frame)
         if not ret:
             break
         k = cv2.waitKey(1)
