@@ -2,11 +2,11 @@
 """
 This module defines class for menu bar item and the options
 user can click on. 
-Includes features like-
-Setup
-Password (create/change)
-onoff- Launching daemon
-stop - stop the daemon from running
+Includes features like:
+    Setup
+    Password (create/change)
+    onoff- Launching daemon
+    stop - stop the daemon from running
 """
 import rumps
 import subprocess
@@ -20,11 +20,7 @@ class MacFace(rumps.App):
         """
         Method to access setup options to create or change training data
         """
-        value = rumps.alert("You are entering the setup")
-        if value is 1:
-            subprocess.Popen("~/MacFaceID/training_data.py")
-        else:
-            rumps.alert("Exiting Setup")
+        subprocess.Popen([os.path.expanduser('~/MacFaceID/training_data.py')])
 
     @rumps.clicked("Password")
     def password(self, _):
@@ -32,7 +28,7 @@ class MacFace(rumps.App):
         Method to create or change password. Calls the script which 
         saves the password in keychain.
         """
-        subprocess.Popen("~/MacFaceID/credentials.py")
+        subprocess.Popen([os.path.expanduser("~/MacFaceID/credentials.py")])
         
     @rumps.clicked("Launch MacFace")
     def onoff(self, sender):
