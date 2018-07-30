@@ -46,5 +46,12 @@ class MacFace(rumps.App):
         kill_it = "kill -9 {}".format(self.new_process.pid)
         os.system(kill_it)
 
+    @rumps.clicked('Quit')
+    def clean_up_before_quit(self,_):
+        kill_it = "kill -9 {}".format(self.new_process.pid)
+        os.system(kill_it)
+        rumps.quit_application()
+
 if __name__ == "__main__":
-    MacFace("MF").run()
+    app = MacFace('MF', quit_button=None)
+    app.run()

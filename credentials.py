@@ -1,6 +1,13 @@
 #!/usr/bin/env python3
+"""
+Module to create dialogue box to obtain password from the user and 
+create an instance in Keychain and save the password in that
+instance
+"""
 import tkinter as tk
 import keyring
+
+
 def make_entry(parent, caption, width=None, **options):
     tk.Label(parent, text=caption).pack(side=tk.TOP)
     entry = tk.Entry(parent, **options)
@@ -23,10 +30,10 @@ root.title('Password Request')
 #frame for window margin
 parent = tk.Frame(root, padx=10, pady=10)
 parent.pack(fill=tk.BOTH, expand=True)
-#entrys with not shown text
+#entrys with hidden text
 user = make_entry(parent, "Password:", 16, show='*')
 password = make_entry(parent, "Confirm Password:", 16, show="*")
-#button to attempt to login
+#button to enter the password
 b = tk.Button(parent, borderwidth=4, text="OK", width=10, pady=8, command=check_password)
 b.pack(side=tk.BOTTOM)
 password.bind('<Return>', enter)
